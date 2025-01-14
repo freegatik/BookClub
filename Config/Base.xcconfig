@@ -1,0 +1,4 @@
+//
+// Shared build settings. Optional: Config/Local.xcconfig (gitignored), see Local.xcconfig.example.
+//
+#include? "Local.xcconfig"
