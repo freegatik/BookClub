@@ -1,0 +1,49 @@
+name: Build
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 75
+    env:
+      IPHONEOS_DEPLOYMENT_TARGET: "18.2"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup iOS CI (Xcode + platform)
+        uses: ./.github/actions/setup-ios-ci
+
+      - name: Create CI Simulator (simctl)
+        id: sim
+        run: |
+          chmod +x .github/scripts/ensure-booknook-simulator.sh
+          UDID="$(.github/scripts/ensure-booknook-simulator.sh)"
+          echo "UDID=${UDID}"
+          xcrun simctl boot "${UDID}" || true
+          {
+            echo "DESTINATION<<EOF"
+            echo "platform=iOS Simulator,id=${UDID}"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Build for simulator (same destination as tests)
+        run: |
+          xcodebuild build \
+            -project BookNook.xcodeproj \
+            -scheme BookNook \
+            -destination "${{ steps.sim.outputs.DESTINATION }}" \
+            CODE_SIGN_IDENTITY="-" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO

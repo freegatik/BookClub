@@ -1,0 +1,55 @@
+name: Unit Tests
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: unit-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: macos-15
+    timeout-minutes: 75
+    env:
+      IPHONEOS_DEPLOYMENT_TARGET: "18.2"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup iOS CI (Xcode + platform)
+        uses: ./.github/actions/setup-ios-ci
+
+      - name: Create CI Simulator (simctl)
+        id: sim
+        run: |
+          chmod +x .github/scripts/ensure-booknook-simulator.sh
+          UDID="$(.github/scripts/ensure-booknook-simulator.sh)"
+          echo "UDID=${UDID}"
+          xcrun simctl boot "${UDID}" || true
+          {
+            echo "DESTINATION<<EOF"
+            echo "platform=iOS Simulator,id=${UDID}"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Unit & UI tests + coverage summary
+        run: |
+          RESULT_BUNDLE="${RUNNER_TEMP}/BookNookTests.xcresult"
+          rm -rf "${RESULT_BUNDLE}"
+          xcodebuild test \
+            -project BookNook.xcodeproj \
+            -scheme BookNook \
+            -destination "${{ steps.sim.outputs.DESTINATION }}" \
+            -resultBundlePath "${RESULT_BUNDLE}" \
+            -enableCodeCoverage YES \
+            CODE_SIGN_IDENTITY="-" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+          echo "---- Coverage (BookNook.app, top of report) ----"
+          xcrun xccov view --report "${RESULT_BUNDLE}" | head -25
