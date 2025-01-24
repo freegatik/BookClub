@@ -27,4 +27,15 @@ final class SignInCredentialsValidatorTests: XCTestCase {
     func testTrimsEmailWhitespace() {
         XCTAssertTrue(SignInCredentialsValidator.canEnableSignIn(email: "  test@example.com  ", password: "x"))
     }
+
+    func testIsValidEmailAcceptsCommonFormats() {
+        XCTAssertTrue(SignInCredentialsValidator.isValidEmail("a@b.co"))
+        XCTAssertTrue(SignInCredentialsValidator.isValidEmail("user.name+tag@example.org"))
+    }
+
+    func testIsValidEmailRejectsMissingDomainOrTLD() {
+        XCTAssertFalse(SignInCredentialsValidator.isValidEmail(""))
+        XCTAssertFalse(SignInCredentialsValidator.isValidEmail("plain"))
+        XCTAssertFalse(SignInCredentialsValidator.isValidEmail("no-at-sign"))
+    }
 }

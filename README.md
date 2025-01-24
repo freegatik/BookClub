@@ -34,10 +34,10 @@ Tabs and `fullScreenCover` are driven from `MainView`.
 
 ## Tests
 
-- **BookNookTests** — `SignInCredentialsValidator`, `SearchViewModel` (stub `SearchDataProviding`, `removeRequest`, `loadData`).
+- **BookNookTests** — `SignInCredentialsValidator`, `SignInViewModel`, `SearchViewModel`, `LibraryViewModel`, `BookmarksViewModel`, `BookDetailsViewModel`, `MainViewModel`, and `String` layout helpers (see `BookNookTests/`).
 - **BookNookUITests** — sign-in smoke (`test@example.com`).
 
-Other screens are still mostly static sample data; unit tests there would add little until real logic exists.
+Screens still use mostly mock/sample data; tests focus on wiring, validation, and `@Published` behavior you can regress without UI.
 
 ## Lint / CI
 

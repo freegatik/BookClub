@@ -48,6 +48,44 @@ final class SearchViewModelTests: XCTestCase {
 
         XCTAssertEqual(sut.requests.map(\.title), ["two"])
     }
+
+    func testInitialStateLoadsFullCatalogFromProvider() {
+        let catalog = SearchCatalog(
+            searchResults: [SearchResult(imageName: "i", title: "T", author: "A")],
+            requests: [Request(title: "r")],
+            genres: [Genre(title: "g")],
+            authors: [Author(imageName: "ia", title: "at")]
+        )
+        let sut = SearchViewModel(dataProvider: StubSearchDataProvider(catalog: catalog))
+
+        XCTAssertEqual(sut.searchResults.count, 1)
+        XCTAssertEqual(sut.searchResults.first?.title, "T")
+        XCTAssertEqual(sut.requests.count, 1)
+        XCTAssertEqual(sut.genres.count, 1)
+        XCTAssertEqual(sut.authors.count, 1)
+    }
+
+    func testShowBookDetailsSetsSelectionAndPresentation() throws {
+        let catalog = SearchCatalog(
+            searchResults: [SearchResult(imageName: "Cover", title: "Da Vinci", author: "Brown")],
+            requests: [],
+            genres: [],
+            authors: []
+        )
+        let sut = SearchViewModel(dataProvider: StubSearchDataProvider(catalog: catalog))
+        let pick = sut.searchResults.first!
+
+        sut.showBookDetails(for: pick)
+
+        XCTAssertTrue(sut.isBookDetailsPresented)
+        XCTAssertEqual(sut.selectedBook?.title, "Da Vinci")
+        XCTAssertEqual(sut.selectedBook?.author, "Brown")
+        XCTAssertEqual(sut.selectedBook?.coverImageName, "Cover")
+        let progress = try XCTUnwrap(sut.selectedBook?.progress)
+        XCTAssertEqual(progress, 0.3, accuracy: 0.001)
+        XCTAssertEqual(sut.selectedBook?.chapters.count, 5)
+        XCTAssertEqual(sut.selectedBook?.chapters.first?.title, "Пролог")
+    }
 }
 
 private struct CallbackSearchDataProvider: SearchDataProviding {
