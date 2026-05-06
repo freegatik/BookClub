@@ -24,6 +24,7 @@ struct LibraryView: View {
             .padding(.bottom, Metrics.bottomPadding)
             .frame(maxWidth: .infinity, alignment: .topLeading)
         }
+        .accessibilityIdentifier("libraryRoot")
         .scrollIndicators(.hidden)
         .background(Color.background)
         .onAppear {

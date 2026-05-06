@@ -36,11 +36,7 @@ final class SearchViewModelTests: XCTestCase {
     func testLoadDataRefreshesFromProvider() {
         let first = SearchCatalog(searchResults: [], requests: [Request(title: "one")], genres: [], authors: [])
         let second = SearchCatalog(searchResults: [], requests: [Request(title: "two")], genres: [], authors: [])
-        var call = 0
-        let provider = CallbackSearchDataProvider {
-            call += 1
-            return call == 1 ? first : second
-        }
+        let provider = AlternatingSearchCatalogProvider(first: first, second: second)
         let sut = SearchViewModel(dataProvider: provider)
         XCTAssertEqual(sut.requests.map(\.title), ["one"])
 
@@ -86,9 +82,42 @@ final class SearchViewModelTests: XCTestCase {
         XCTAssertEqual(sut.selectedBook?.chapters.count, 5)
         XCTAssertEqual(sut.selectedBook?.chapters.first?.title, "Пролог")
     }
+
+    func testDisplayedSearchResultsFiltersByTitleAndAuthor() {
+        let catalog = SearchCatalog(
+            searchResults: [
+                SearchResult(imageName: "a", title: "Alpha Guide", author: "Alice"),
+                SearchResult(imageName: "b", title: "Beta", author: "Swift Course"),
+            ],
+            requests: [],
+            genres: [],
+            authors: []
+        )
+        let sut = SearchViewModel(dataProvider: StubSearchDataProvider(catalog: catalog))
+
+        XCTAssertEqual(sut.displayedSearchResults(for: "").count, 0)
+        XCTAssertEqual(sut.displayedSearchResults(for: "   ").count, 0)
+        XCTAssertEqual(sut.displayedSearchResults(for: "alpha").count, 1)
+        XCTAssertEqual(sut.displayedSearchResults(for: "SWIFT").count, 1)
+        XCTAssertEqual(sut.displayedSearchResults(for: "gamma").count, 0)
+    }
 }
 
-private struct CallbackSearchDataProvider: SearchDataProviding {
-    let next: () -> SearchCatalog
-    func makeInitialCatalog() -> SearchCatalog { next() }
+private final class AlternatingSearchCatalogProvider: SearchDataProviding, @unchecked Sendable {
+    private var returnsFirst = true
+    let first: SearchCatalog
+    let second: SearchCatalog
+
+    init(first: SearchCatalog, second: SearchCatalog) {
+        self.first = first
+        self.second = second
+    }
+
+    func makeInitialCatalog() -> SearchCatalog {
+        if returnsFirst {
+            returnsFirst = false
+            return first
+        }
+        return second
+    }
 }

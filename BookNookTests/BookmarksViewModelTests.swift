@@ -12,9 +12,9 @@ import XCTest
 final class BookmarksViewModelTests: XCTestCase {
     func testInitUsesSampleDefaultsWhenNil() {
         let sut = BookmarksViewModel()
-        XCTAssertEqual(sut.currentBook.title, BookmarksViewModel.SampleData.currentBook.title)
-        XCTAssertEqual(sut.favoriteBooks.count, BookmarksViewModel.SampleData.favoriteBooks.count)
-        XCTAssertEqual(sut.quotes.count, BookmarksViewModel.SampleData.quotes.count)
+        XCTAssertEqual(sut.currentBook.title, MockBookmarksDataProvider.sampleCurrentBook.title)
+        XCTAssertEqual(sut.favoriteBooks.count, MockBookmarksDataProvider.sampleFavoriteBooks.count)
+        XCTAssertEqual(sut.quotes.count, MockBookmarksDataProvider.sampleQuotes.count)
     }
 
     func testLoadDataResetsPublishedStateToSample() {
@@ -25,9 +25,9 @@ final class BookmarksViewModelTests: XCTestCase {
         )
         sut.loadData()
 
-        XCTAssertEqual(sut.currentBook.title, BookmarksViewModel.SampleData.currentBook.title)
-        XCTAssertEqual(sut.favoriteBooks.count, BookmarksViewModel.SampleData.favoriteBooks.count)
-        XCTAssertEqual(sut.quotes.count, BookmarksViewModel.SampleData.quotes.count)
+        XCTAssertEqual(sut.currentBook.title, MockBookmarksDataProvider.sampleCurrentBook.title)
+        XCTAssertEqual(sut.favoriteBooks.count, MockBookmarksDataProvider.sampleFavoriteBooks.count)
+        XCTAssertEqual(sut.quotes.count, MockBookmarksDataProvider.sampleQuotes.count)
     }
 
     func testShowBookDetailsForFavorite() {

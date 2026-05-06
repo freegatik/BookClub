@@ -70,6 +70,7 @@ private extension CustomTabBar {
                 .foregroundColor(selectedTab == tab ? .customWhite : .accentMedium)
         }
         .accessibilityLabel(tab.accessibilityLabel)
+        .accessibilityIdentifier(tab.testIdentifier)
     }
     
     @ViewBuilder
@@ -87,6 +88,7 @@ private extension CustomTabBar {
         }
         .offset(y: Metrics.centerButtonOffset)
         .accessibilityLabel(LocalizedKey.Accessibility.tabCurrentBook)
+        .accessibilityIdentifier("tabCurrentBook")
     }
 }
 
@@ -98,6 +100,15 @@ private extension CustomTabBar.Tab {
         case .search: LocalizedKey.Accessibility.tabSearch
         case .bookmarks: LocalizedKey.Accessibility.tabBookmarks
         case .logout: LocalizedKey.Accessibility.tabLogout
+        }
+    }
+
+    var testIdentifier: String {
+        switch self {
+        case .library: "tabLibrary"
+        case .search: "tabSearch"
+        case .bookmarks: "tabBookmarks"
+        case .logout: "tabLogout"
         }
     }
 }

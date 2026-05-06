@@ -23,6 +23,7 @@ struct BookmarksView: View {
             .padding(.bottom, Metrics.bottomPadding)
             .frame(maxWidth: .infinity, alignment: .topLeading)
         }
+        .accessibilityIdentifier("bookmarksRoot")
         .scrollIndicators(.hidden)
         .background(Color.background)
         .onAppear {

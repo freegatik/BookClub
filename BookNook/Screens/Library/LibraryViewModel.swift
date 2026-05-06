@@ -14,17 +14,25 @@ final class LibraryViewModel: ObservableObject {
     @Published var books: [Book]
     @Published var selectedBook: BookDetails?
     @Published var isBookDetailsPresented: Bool = false
-    
+
+    // MARK: - Private Properties
+    private let dataProvider: LibraryDataProviding
+
     // MARK: - Init
-    init(books: [Book]? = nil) {
-        self.books = books ?? SampleData.books
+    init(books: [Book]? = nil, dataProvider: LibraryDataProviding = MockLibraryDataProvider()) {
+        self.dataProvider = dataProvider
+        if let books {
+            self.books = books
+        } else {
+            self.books = dataProvider.makeLibraryCatalog().books
+        }
     }
-    
+
     // MARK: - Public Methods
     func loadBooks() {
-        self.books = SampleData.books
+        books = dataProvider.makeLibraryCatalog().books
     }
-    
+
     func showBookDetails(for book: Book) {
         selectedBook = BookDetails(
             coverImageName: book.imageName,
@@ -45,28 +53,5 @@ final class LibraryViewModel: ObservableObject {
             ]
         )
         isBookDetailsPresented = true
-    }
-}
-
-// MARK: - Sample Data
-extension LibraryViewModel {
-    enum SampleData {
-        static let books: [Book] = [
-            Book(imageName: "TestBook1", title: "ПОНЕДЕЛЬНИК НАЧИНАЕТСЯ В СУББОТУ", author: "Эрик Мария Ремарк"),
-            Book(imageName: "TestBook2", title: "КОД ДА ВИНЧИ", author: "Дэн Браун"),
-            Book(imageName: "TestBook3", title: "ПРЕСТУПЛЕНИЕ И НАКАЗАНИЕ", author: "Фёдор Достоевский"),
-            Book(imageName: "TestBook1", title: "ПОНЕДЕЛЬНИК НАЧИНАЕТСЯ В СУББОТУ", author: "Эрик Мария Ремарк"),
-            Book(imageName: "TestBook2", title: "КОД ДА ВИНЧИ", author: "Дэн Браун"),
-            Book(imageName: "TestBook3", title: "ПРЕСТУПЛЕНИЕ И НАКАЗАНИЕ", author: "Фёдор Достоевский"),
-            Book(imageName: "TestBook1", title: "ПОНЕДЕЛЬНИК НАЧИНАЕТСЯ В СУББОТУ", author: "Эрик Мария Ремарк"),
-            Book(imageName: "TestBook2", title: "КОД ДА ВИНЧИ", author: "Дэн Браун"),
-            Book(imageName: "TestBook3", title: "ПРЕСТУПЛЕНИЕ И НАКАЗАНИЕ", author: "Фёдор Достоевский"),
-            Book(imageName: "TestBook1", title: "ПОНЕДЕЛЬНИК НАЧИНАЕТСЯ В СУББОТУ", author: "Эрик Мария Ремарк"),
-            Book(imageName: "TestBook2", title: "КОД ДА ВИНЧИ", author: "Дэн Браун"),
-            Book(imageName: "TestBook3", title: "ПРЕСТУПЛЕНИЕ И НАКАЗАНИЕ", author: "Фёдор Достоевский"),
-            Book(imageName: "TestBook1", title: "ПОНЕДЕЛЬНИК НАЧИНАЕТСЯ В СУББОТУ", author: "Эрик Мария Ремарк"),
-            Book(imageName: "TestBook2", title: "КОД ДА ВИНЧИ", author: "Дэн Браун"),
-            Book(imageName: "TestBook3", title: "ПРЕСТУПЛЕНИЕ И НАКАЗАНИЕ", author: "Фёдор Достоевский")
-        ]
     }
 }

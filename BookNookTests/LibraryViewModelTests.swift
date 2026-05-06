@@ -26,8 +26,8 @@ final class LibraryViewModelTests: XCTestCase {
 
         sut.loadBooks()
 
-        XCTAssertEqual(sut.books.count, LibraryViewModel.SampleData.books.count)
-        XCTAssertEqual(sut.books.first?.title, LibraryViewModel.SampleData.books.first?.title)
+        XCTAssertEqual(sut.books.count, MockLibraryDataProvider.sampleBooks.count)
+        XCTAssertEqual(sut.books.first?.title, MockLibraryDataProvider.sampleBooks.first?.title)
     }
 
     func testShowBookDetailsSetsPresentationAndMetadata() throws {

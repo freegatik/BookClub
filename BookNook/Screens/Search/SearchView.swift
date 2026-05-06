@@ -38,6 +38,7 @@ struct SearchView: View {
                 .padding(.bottom, Metrics.bottomPadding)
                 .frame(maxWidth: .infinity, alignment: .topLeading)
             }
+            .accessibilityIdentifier("searchRoot")
             .scrollIndicators(.hidden)
             .background(Color.background)
             .navigationTitle("")
@@ -82,7 +83,7 @@ private extension SearchView {
     @ViewBuilder
     var searchResults: some View {
         LazyVGrid(columns: [GridItem(.flexible())], spacing: Metrics.searchResultSpacing) {
-            ForEach(viewModel.searchResults, id: \.id) { result in
+            ForEach(viewModel.displayedSearchResults(for: searchText), id: \.id) { result in
                 searchResultItem(result: result)
                     .frame(maxHeight: .infinity)
             }

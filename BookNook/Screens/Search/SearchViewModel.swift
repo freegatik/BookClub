@@ -65,4 +65,13 @@ final class SearchViewModel: ObservableObject {
     func removeRequest(_ request: Request) {
         requests.removeAll { $0.id == request.id }
     }
+
+    /// When the user types a non-empty query, show matching catalog rows (title or author substring, case-insensitive).
+    func displayedSearchResults(for query: String) -> [SearchResult] {
+        let queryLowercased = query.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        guard !queryLowercased.isEmpty else { return [] }
+        return searchResults.filter {
+            $0.title.lowercased().contains(queryLowercased) || $0.author.lowercased().contains(queryLowercased)
+        }
+    }
 }
