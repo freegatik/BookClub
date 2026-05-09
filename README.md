@@ -20,6 +20,11 @@ Three workflows on [GitHub Actions](https://github.com/freegatik/BookNook/action
 
 **Swift Lint** runs against the same Xcode **16.2** as the app; logs include Xcode, Swift, and SwiftLint versions before linting.
 
+Extras:
+
+- **Dependabot** ([`.github/dependabot.yml`](.github/dependabot.yml)) opens weekly PRs to bump `@actions/*` and third‑party action pins—fewer stale/security‑risk dependencies.
+- If **Unit Tests** fails, the workflow uploads the generated `.xcresult` bundle as an artifact so you can download it and open it locally in Xcode (**Organizer → Reports** or drag the bundle onto Xcode).
+
 ## Requirements
 
 - **Xcode 16.2**
