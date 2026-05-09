@@ -53,3 +53,11 @@ jobs:
             CODE_SIGNING_ALLOWED=NO
           echo "---- Coverage (BookNook.app, top of report) ----"
           xcrun xccov view --report "${RESULT_BUNDLE}" | head -25
+
+      - name: Upload test result bundle on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: BookNook-tests-xcresult
+          path: ${{ runner.temp }}/BookNookTests.xcresult
+          if-no-files-found: ignore
