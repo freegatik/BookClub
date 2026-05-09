@@ -1,3 +1,5 @@
+<img src="BookNook/Resources/Assets.xcassets/AppIcon.appiconset/180.png" width="300">
+
 # BookNook
 
 iOS app built with **SwiftUI** (Swift **5**, iOS **18.2** minimum). Features a library, search, bookmarks, sign-in, and tab-based navigation. Library and list data go through protocols in `Core` — `LibraryDataProviding`, `SearchDataProviding`, and `BookmarksDataProviding` — with separate implementations for development and tests, so a future API or backend can be integrated at the data layer.
