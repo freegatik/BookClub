@@ -1,4 +1,6 @@
-<img src="BookNook/Resources/Assets.xcassets/AppIcon.appiconset/180.png" width="300">
+<p align="center">
+  <img src="BookNook/Resources/Assets.xcassets/AppIcon.appiconset/180.png" width="200" alt="BookNook">
+</p>
 
 # BookNook
 
