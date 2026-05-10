@@ -18,7 +18,7 @@ Three workflows on [GitHub Actions](https://github.com/freegatik/BookNook/action
 | **Unit Tests**| Full `xcodebuild test` (unit + UI targets), code coverage + short `xccov` summary |
 | **Swift Lint**| `swiftlint lint --strict` |
 
-**Build** and **Unit Tests** share the composite action [`setup-ios-ci`](.github/actions/setup-ios-ci/action.yml) (Xcode **16.2**, first launch, iOS Simulator runtime download), then create a simulator with [`ensure-booknook-simulator.sh`](.github/scripts/ensure-booknook-simulator.sh). Both target that simulator’s UDID as `destination`, instead of relying only on `generic/platform=iOS Simulator`.
+**Build** and **Unit Tests** share the composite action [`setup-ios-ci`](.github/actions/setup-ios-ci/action.yml) (Xcode **16.2**, first launch, iOS Simulator runtime download), then create a simulator named **`BookNook CI`** via [`ensure-booknook-simulator.sh`](.github/scripts/ensure-booknook-simulator.sh). `xcodebuild` targets **`platform=iOS Simulator,name=BookNook CI`** (stable on CI), boots it, and waits for **`bootstatus`** instead of relying only on `generic/platform=iOS Simulator`.
 
 **Swift Lint** runs against the same Xcode **16.2** as the app; logs include Xcode, Swift, and SwiftLint versions before linting.
 
