@@ -4,15 +4,19 @@
 
 # BookNook
 
+![Static Badge](https://img.shields.io/badge/platform-iOS-white)
+![Static Badge](https://img.shields.io/badge/latest_release-v1.0.0-green)
+![Static Badge](https://img.shields.io/badge/swift-v5.0-orange)
+
+[![Build](https://github.com/freegatik/BookNook/actions/workflows/build.yml/badge.svg)](https://github.com/freegatik/BookNook/actions/workflows/build.yml)
+[![Unit Tests](https://github.com/freegatik/BookNook/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/freegatik/BookNook/actions/workflows/unit-tests.yml)
+[![Swift Lint](https://github.com/freegatik/BookNook/actions/workflows/lint.yml/badge.svg)](https://github.com/freegatik/BookNook/actions/workflows/lint.yml)
+
 iOS app built with **SwiftUI** (Swift **5**, iOS **18.2** minimum). Features a library, search, bookmarks, sign-in, and tab-based navigation. Library and list data go through protocols in `Core` — `LibraryDataProviding`, `SearchDataProviding`, and `BookmarksDataProviding` — with separate implementations for development and tests, so a future API or backend can be integrated at the data layer.
 
 ## CI
 
 Three workflows on [GitHub Actions](https://github.com/freegatik/BookNook/actions):
-
-[![Build](https://github.com/freegatik/BookNook/actions/workflows/build.yml/badge.svg)](https://github.com/freegatik/BookNook/actions/workflows/build.yml)
-[![Unit Tests](https://github.com/freegatik/BookNook/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/freegatik/BookNook/actions/workflows/unit-tests.yml)
-[![Swift Lint](https://github.com/freegatik/BookNook/actions/workflows/lint.yml/badge.svg)](https://github.com/freegatik/BookNook/actions/workflows/lint.yml)
 
 | Workflow      | What it runs |
 |---------------|----------------|
