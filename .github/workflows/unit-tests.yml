@@ -29,14 +29,14 @@ jobs:
         id: sim
         run: |
           chmod +x .github/scripts/ensure-booknook-simulator.sh
-          UDID="$(.github/scripts/ensure-booknook-simulator.sh)"
+          UDID="$(.github/scripts/ensure-booknook-simulator.sh | tr -d '[:space:]')"
           echo "UDID=${UDID}"
           xcrun simctl boot "${UDID}" || true
           xcrun simctl bootstatus "${UDID}" -b
           xcrun simctl list devices available | grep -F "${UDID}" || true
           {
             echo "DESTINATION<<EOF"
-            echo "platform=iOS Simulator,name=BookNook CI"
+            echo "platform=iOS Simulator,id=${UDID}"
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
 
