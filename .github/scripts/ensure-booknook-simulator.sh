@@ -14,7 +14,9 @@ from itertools import zip_longest
 MIN_IOS = os.environ["IPHONEOS_DEPLOYMENT_TARGET"]
 NAME = "BookNook CI"
 DEVICE_TYPES = [
+    "com.apple.CoreSimulator.SimDeviceType.iPhone-16-Pro",
     "com.apple.CoreSimulator.SimDeviceType.iPhone-16",
+    "com.apple.CoreSimulator.SimDeviceType.iPhone-15-Pro",
     "com.apple.CoreSimulator.SimDeviceType.iPhone-15",
     "com.apple.CoreSimulator.SimDeviceType.iPhone-14",
 ]
