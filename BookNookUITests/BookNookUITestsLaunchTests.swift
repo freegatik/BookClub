@@ -19,7 +19,7 @@ final class BookNookUITestsLaunchTests: XCTestCase {
 
     @MainActor
     func testLaunch() throws {
-        XCUIApplication(bundleIdentifier: "com.apple.springboard").activate()
+        UITestSession.resetHostBeforeAppLaunch()
 
         let app = XCUIApplication()
         app.launch()

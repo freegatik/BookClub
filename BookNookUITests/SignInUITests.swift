@@ -22,7 +22,7 @@ final class SignInUITests: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
 
-        XCUIApplication(bundleIdentifier: "com.apple.springboard").activate()
+        UITestSession.resetHostBeforeAppLaunch()
 
         app = XCUIApplication()
         app.launch()
@@ -31,7 +31,7 @@ final class SignInUITests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-        XCUIApplication(bundleIdentifier: "com.apple.springboard").activate()
+        UITestSession.resetHostBeforeAppLaunch()
         app = nil
         signInPage = nil
     }

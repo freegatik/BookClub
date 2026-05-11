@@ -13,7 +13,7 @@ final class MainTabFlowUITests: XCTestCase {
 
     override func setUpWithError() throws {
         continueAfterFailure = false
-        XCUIApplication(bundleIdentifier: "com.apple.springboard").activate()
+        UITestSession.resetHostBeforeAppLaunch()
 
         app = XCUIApplication()
         app.launchArguments += ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
@@ -27,7 +27,7 @@ final class MainTabFlowUITests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-        XCUIApplication(bundleIdentifier: "com.apple.springboard").activate()
+        UITestSession.resetHostBeforeAppLaunch()
         app = nil
     }
 
